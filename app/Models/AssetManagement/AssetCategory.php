@@ -9,4 +9,9 @@ class AssetCategory extends Model
 {
     /** @use HasFactory<\Database\Factories\AssetCategoryFactory> */
     use HasFactory;
+
+    protected $table = 'asset_categories';
+    protected $fillable = [
+        'name',
+    ];
 }

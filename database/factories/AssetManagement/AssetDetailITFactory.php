@@ -3,11 +3,12 @@
 namespace Database\Factories\AssetManagement;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AssetDetailIT-m>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AssetManagement\AssetDetailIT>
  */
-class AssetDetailITMFactory extends Factory
+class AssetDetailITFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,7 +21,7 @@ class AssetDetailITMFactory extends Factory
             'asset_id' => \App\Models\AssetManagement\Asset::factory(),
             'brand' => $this->faker->company(),
             'model' => $this->faker->word(),
-            'serial_number' => strtoupper(Str::random(10)),
+            'serial_number' => strtoupper(string: Str::random(10)),
             'os' => 'Windows 11',
             'cpu' => 'Intel i5',
             'ram' => '16GB',

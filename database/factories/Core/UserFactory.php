@@ -5,6 +5,9 @@ namespace Database\Factories\Core;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\Core\User;
+use Spatie\Permission\Models\Role;
+
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -40,5 +43,15 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            $role = Role::inRandomOrder()->first();
+            if ($role) {
+                $user->assignRole($role);
+            }
+        });
     }
 }

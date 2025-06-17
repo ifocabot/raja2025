@@ -2,29 +2,37 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-
 class RolePermissionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $admin = Role::create(['name' => 'admin']);
-        $staff = Role::create(['name' => 'staff']);
-
-        $permissions = ['asset.view', 'asset.create', 'asset.edit', 'asset.delete'];
-
-        foreach ($permissions as $perm) {
-            Permission::create(['name' => $perm]);
+        // Roles
+        $roles = ['admin', 'staff', 'auditor', 'viewer'];
+        foreach ($roles as $roleName) {
+            Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'web']);
         }
 
-        $admin->givePermissionTo(Permission::all());
-        $staff->givePermissionTo(['asset.view']);
+        // Permissions
+        $permissions = [
+            'asset.view', 'asset.create', 'asset.edit', 'asset.delete',
+            'user.manage', 'audit.schedule', 'audit.run',
+        ];
+        foreach ($permissions as $permName) {
+            Permission::firstOrCreate(['name' => $permName, 'guard_name' => 'web']);
+        }
+
+        // Assign all permissions to admin
+        $admin = Role::where('name', 'admin')->first();
+        $admin->syncPermissions(Permission::all());
+
+        // Assign view permission to staff, viewer, auditor
+        foreach (['staff', 'auditor', 'viewer'] as $r) {
+            $role = Role::where('name', $r)->first();
+            $role->syncPermissions(['asset.view']);
+        }
     }
 }
