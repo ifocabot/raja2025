@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name'); // Laptop, Kulkas, etc
             $table->foreignId('category_id')->constrained('asset_categories')->onDelete('cascade');
-            $table->string('functional_group');
+            $table->foreignId('functional_group_id')->nullable()->constrained('functional_groups')->nullOnDelete();
             $table->timestamps();
-
         });
     }
 

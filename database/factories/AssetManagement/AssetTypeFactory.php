@@ -3,23 +3,23 @@
 namespace Database\Factories\AssetManagement;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\AssetManagement\AssetCategory;
+use App\Models\AssetManagement\FunctionalGroup;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AssetType>
+ * @extends Factory<\App\Models\AssetManagement\AssetType>
  */
 class AssetTypeFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition()
+    public function definition(): array
     {
+        $category = AssetCategory::inRandomOrder()->first() ?? AssetCategory::factory()->create();
+        $functionalGroup = FunctionalGroup::inRandomOrder()->first() ?? FunctionalGroup::factory()->create();
+
         return [
-            'name' => $this->faker->word(),
-            'category_id' => \App\Models\AssetManagement\AssetCategory::inRandomOrder()->first()->id,
-            'functional_group' => $this->faker->word()
+            'name' => ucfirst($this->faker->words(2, true)), // Contoh: "Power Unit"
+            'category_id' => $category->id,
+            'functional_group_id' => $functionalGroup->id,
         ];
     }
 }

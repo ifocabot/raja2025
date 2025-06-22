@@ -11,24 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-    Schema::create('asset_details_it', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('asset_id')->constrained('assets')->onDelete('cascade');
-        $table->string('brand');
-        $table->string('model');
-        $table->string('serial_number');
-        $table->string('os');
-        $table->string('cpu');
-        $table->string('ram');
-        $table->string('storage');
-        $table->string('mac_address');
-        $table->string('ip_address');
-        $table->string('license_key');
-        $table->date('warranty_expiry_date')->nullable();
-        $table->timestamps();
-
-    });
-
+        Schema::create('asset_details_it', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('asset_id')->constrained('assets')->onDelete('cascade');
+            $table->string('brand')->nullable();
+            $table->string('model')->nullable();
+            $table->string('serial_number')->nullable();
+            $table->string('os')->nullable();
+            $table->string('cpu')->nullable();
+            $table->string('ram')->nullable();
+            $table->string('storage')->nullable();
+            $table->string('mac_address')->nullable();
+            $table->string('ip_address')->nullable();
+            $table->string('license_key')->nullable();
+            $table->date('warranty_expiry_date')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
